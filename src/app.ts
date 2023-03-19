@@ -13,13 +13,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
 app.use(routes);
-app.get('/*', function(req, res) {
-    res.sendFile(path.join(__dirname, 'path/to/your/index.html'), function(err) {
-      if (err) {
-        res.status(500).send(err)
-      }
-    })
-  })
+
+// Serve static files from the build directory
+app.use(express.static(path.join(__dirname, 'build')));
+
+// Serve the index.html file for all other requests
+app.get('*', function(req, res) {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
 
 const port = process.env.PORT
 app.listen(port, () => console.log("Listening on port"));

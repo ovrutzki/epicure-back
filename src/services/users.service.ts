@@ -1,5 +1,6 @@
 import { IUser, UserModel } from "../models/users.model";
 import { Request, Response } from "express";
+import { IDish } from "../models/dishes.model";
 
 export const getUsers = async () => {
    const allUsers = await UserModel.find()
@@ -30,7 +31,6 @@ export const registerNewUser = async (user: IUser) => {
 
 
 export const UpDateCart =  async (_id:Object, dish:Object) => {
-  console.log(_id, "id");
   
   try {
    const _rest =  await UserModel.findOneAndUpdate({_id:_id}, {$push:{dishInCart:dish}})
@@ -58,5 +58,19 @@ export const getUsersCart = async (user_id:Object | undefined) => {
    
  return userCart
 };
+
+export const  removeDishFromCart = async (dish_Id:number, userEmail:string) =>{
+  try{
+    const user = await UserModel.findOne({email:userEmail});
+    const dishToDelete = user?.dishInCart?.find((dish:any) => dish.dishId === dish_Id);
+    const newCart = await UserModel.findOneAndUpdate({email:userEmail}, {$pull:{dishInCart:dishToDelete}})
+    if(newCart){
+      return newCart
+    }
+  } catch (err) {
+    console.log(err);
+    throw err;
+}
+}
 
    

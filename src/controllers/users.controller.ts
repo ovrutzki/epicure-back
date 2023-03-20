@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { getUsers, registerNewUser, UpDateCart, getUsersCart } from "../services/users.service";
+import { getUsers, registerNewUser, UpDateCart, getUsersCart, removeDishFromCart } from "../services/users.service";
 import bcrypt from "bcrypt";
 import { IUser, UserModel } from "../models/users.model";
 import logging from "../config/logging";
@@ -145,5 +145,15 @@ export const getUserCart = async (req: Request, res: Response) => {
   } catch (err: any) {
     console.log(err);
     throw err;
+  }
+}
+
+export const deleteDishFromCart = async(req: Request, res: Response) =>{
+  let token = req.headers.authorization?.split(' ')[1] ;
+  const userEmail =token && JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString()).email;
+  try {
+    const dishToDelete = removeDishFromCart(req.body.dishId,userEmail)
+  } catch (err) {
+    console.log(err);
   }
 }

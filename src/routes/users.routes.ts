@@ -5,7 +5,8 @@ import {
   loginUser,
   validateToken,
   addDish,
-  getUserCart
+  getUserCart,
+  deleteDishFromCart
 } from "../controllers/users.controller";
 import { authCheck, UserCheck } from "../middleware/authCheck";
 import extractJWT from "../middleware/extractJWT";
@@ -23,6 +24,9 @@ userRouter.post("/addDish", addDish);
 userRouter.get("/get/all",authCheck(['admin']), getAllUsers);
 
 userRouter.get("/getCart", getUserCart);
+
+userRouter.delete("/delete/cartDish",  deleteDishFromCart);
+
 
 
 export default userRouter;

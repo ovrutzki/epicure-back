@@ -16,7 +16,7 @@ dishRouter.delete(
   authCheck(["admin", "chef"]),
   deleteRestaurantDishes
 );
-dishRouter.delete("/delete/oneDish", deleteDish);
+dishRouter.delete("/delete/oneDish", authCheck(["admin", "chef"]), deleteDish);
 dishRouter.post("/adding", authCheck(["admin", "chef"]), addingDish);
 dishRouter.post("/edit", authCheck(["admin", "chef"]), editDish);
 

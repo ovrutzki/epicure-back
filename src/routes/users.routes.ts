@@ -25,7 +25,7 @@ userRouter.get("/get/all",authCheck(['admin']), getAllUsers);
 
 userRouter.get("/getCart", getUserCart);
 
-userRouter.delete("/delete/cartDish",  deleteDishFromCart);
+userRouter.delete("/delete/cartDish", deleteDishFromCart);
 
 
 

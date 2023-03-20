@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response } from "express";
-import { UserModel } from "../models/users.model";
 
 export const authCheck = (permissions: string[]) => {
     return (req: Request, res: Response, next: NextFunction) => {
@@ -14,11 +13,9 @@ export const authCheck = (permissions: string[]) => {
 };
 
 export const UserCheck = () =>{
-    return async (req: Request, res: Response, next: NextFunction) => {
+    return  (req: Request, res: Response, next: NextFunction) => {
          let token = req.headers.authorization?.split(' ')[1] ;
-           const userEmail =token && JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString()).email;
-            const user = await UserModel.findOne({email:userEmail});
-          
+           const userEmail =token && JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString()).email;          
           if(userEmail === req.body.user){
            return next()
           } else {

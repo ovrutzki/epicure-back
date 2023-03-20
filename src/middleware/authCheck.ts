@@ -14,13 +14,11 @@ export const authCheck = (permissions: string[]) => {
 };
 
 export const UserCheck = () =>{
-  console.log("44");
   try {
     return async (req: Request, res: Response, next: NextFunction) => {
          let token = req.headers.authorization?.split(' ')[1] ;
            const userEmail =token && JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString()).email;
           const user = await UserModel.findOne({email:userEmail});
-          console.log("zfdbzsdfb");
           
           if(userEmail === ""){
            return next()

@@ -14,21 +14,17 @@ export const authCheck = (permissions: string[]) => {
 };
 
 export const UserCheck = () =>{
-  try {
     return async (req: Request, res: Response, next: NextFunction) => {
          let token = req.headers.authorization?.split(' ')[1] ;
            const userEmail =token && JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString()).email;
-          const user = await UserModel.findOne({email:userEmail});
+            const user = await UserModel.findOne({email:userEmail});
           
-          if(userEmail === ""){
+          if(userEmail === req.body.user){
            return next()
           } else {
            return res.status(401).json("error while authorized");
          }
      }
     
-  } catch (error) {
-    console.log(error);
-    
-  }
+  
 }
